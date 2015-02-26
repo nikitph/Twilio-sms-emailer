@@ -31,7 +31,6 @@ public class hostMonsterEmailer
     {
 
 
-
         ArrayList<String> disallowedWords = new ArrayList<String>();
         disallowedWords.add("the");
         disallowedWords.add("a");
@@ -54,25 +53,25 @@ public class hostMonsterEmailer
         disallowedWords.add("t");
 
 
-        PDDocument pdf = PDDocument.load(new File("hp2.pdf"));
+        PDDocument pdf = PDDocument.load(new File("ys.pdf"));
 
         PDFTextStripper stripper = new PDFTextStripper();
 
         String plainText = stripper.getText(pdf);
 
-        StringTokenizer st = new StringTokenizer(plainText," ,?;+=.\t\n\r\f\"\')([]|-");
+        StringTokenizer st = new StringTokenizer(plainText, " ,?;+=.\t\n\r\f\"\')([]|-");
         TreeMap<String, Integer> textMap = new TreeMap<String, Integer>();
-        while(st.hasMoreTokens())
+        while (st.hasMoreTokens())
         {
             String temp = st.nextToken().toLowerCase();
-            if(disallowedWords.contains(temp))
+            if (disallowedWords.contains(temp))
                 continue;
 
             if (textMap.containsKey(temp))
             {
                 Integer x = textMap.get(temp);
-                int b = x.intValue() + 1;
-                textMap.replace(temp, x, (Integer) b);
+                int b = x + 1;
+                textMap.replace(temp, x, b);
             } else
                 textMap.put(temp, 1);
         }
@@ -108,7 +107,7 @@ public class hostMonsterEmailer
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse("nikitph@gmail.com"));
             message.setSubject("Testing Subject");
-            message.setText("the most used word is : " + inverseMap.lastEntry().getValue() + " and occurs :" + inverseMap.lastEntry().getKey() +" times" + inverseMap.toString());
+            message.setText("the most used word is : " + inverseMap.lastEntry().getValue() + " and occurs :" + inverseMap.lastEntry().getKey() + " times" + inverseMap.toString());
 
             Transport.send(message);
 
@@ -118,7 +117,7 @@ public class hostMonsterEmailer
 
             // Build a filter for the MessageList
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("Body", "the most used word is : " + inverseMap.lastEntry().getValue() + " and occurs :" + inverseMap.lastEntry().getKey() +" times"));
+            params.add(new BasicNameValuePair("Body", "the most used word is : " + inverseMap.lastEntry().getValue() + " and occurs :" + inverseMap.lastEntry().getKey() + " times"));
             params.add(new BasicNameValuePair("To", "+16502729075"));
             params.add(new BasicNameValuePair("From", "+13853991732"));
 
